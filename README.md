@@ -86,33 +86,19 @@ $ sudo launchctl kickstart -k system/org.nixos.nix-daemon
 
 … and your done!  Enjoy 😊
 
-## Running an `x86_64-linux` builder from an `aarch64-darwin` system
+# Architecture match
 
-By default, `nix run` will spin up a Linux builder whose architecture matches
-your configured `system`.  In other words:
+This only supports running a guest system of the same architecture.
 
-- if your `system` is `aarch64-darwin` (i.e. Apple silicon), `nix run` will
-  create an `aarch64-linux` builder
+In other words:
 
-- if your `system` is `x86_64-darwin`, `nix run` will create an `x86_64-linux`
-  builder
+- an `aarch64-darwin` host can run an `aarch64-linux` guest
+- an `x86_64-darwin` host can run an `x86_64-linux` guest
 
-However, you might be interested in a third scenario: your `system` is
-`aarch64-darwin`, but you want to run an `x86_64-linux` builder.  If that's
-the case, then:
+… but:
 
-- Follow these instructions to enable `x86_64-darwin` builds on your machine:
-
-  [Building x86-64 Packages With Nix on Apple Silicon](https://evanrelf.com/building-x86-64-packages-with-nix-on-apple-silicon)
-
-- Run the following command to create an `x86_64-linux` builder:
-
-  ```ShellSession
-  $ nix run --system x86_64-darwin
-  ```
-
-Note: there is no way for an `x86_64-darwin` system (i.e. not Apple silicon),
-to run an `aarch64-linux` builder, as far as I know.
+- an `aarch64-darwin` host cannot run an `x86_64-linux` guest
+- an `x86_64-darwin` host cannot run an `aarch64-linux` guest
 
 ## Security - Cache
 
