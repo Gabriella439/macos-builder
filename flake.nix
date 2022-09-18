@@ -87,7 +87,15 @@
             };
           };
 
-          nix.settings.trusted-users = [ "root" "builder" ];
+          nix.settings = {
+            auto-optimise-store = true;
+
+            min-free = 1024 * 1024 * 1024;
+
+            max-free = 3 * 1024 * 1024 * 1024;
+
+            trusted-users = [ "root" "builder" ];
+          };
 
           services.openssh.enable = true;
 
@@ -100,7 +108,7 @@
           };
 
           virtualisation = {
-            diskSize = 20480;
+            diskSize = 20 * 1024;
 
             forwardPorts = [
               { from = "host"; guest.port = 22; host.port = 22; }
