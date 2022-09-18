@@ -23,9 +23,7 @@
 
           in
             pkgs.writeShellScript "create-builder.sh" ''
-              set -x
-              sudo install -g nixbld -m 400 ${./keys/nixbld_ed25519} ${privateKey}
-              set +x
+              (set -x; sudo install -g nixbld -m 400 ${./keys/nixbld_ed25519} ${privateKey})
 
               ${packages.builder}/bin/run-nixos-vm
             '';
