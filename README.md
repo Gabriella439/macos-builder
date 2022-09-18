@@ -84,7 +84,7 @@ builders-use-substitutes = true
 $ sudo launchctl kickstart -k system/org.nixos.nix-daemon
 ```
 
-… and your done!  Enjoy 😊
+… and you're done!  Enjoy 😊
 
 # Architecture match
 
