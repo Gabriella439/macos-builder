@@ -14,6 +14,21 @@
 
         builder =
           nixosConfigurations.builder.config.system.build.vm;
+
+        app =
+          let
+            pkgs = nixpkgs.legacyPackages."${system}";
+
+            privateKey = "/etc/nix/nixbld_ed25519";
+
+          in
+            pkgs.writeShellScript "create-builder.sh" ''
+              set -x
+              sudo install -g nixbld -m 400 ${./keys/nixbld_ed25519} ${privateKey}
+              set +x
+
+              ${packages.builder}/bin/run-nixos-vm
+            '';
       };
 
       defaultApp = apps.default;
@@ -21,22 +36,7 @@
       apps.default = {
         type = "app";
 
-        program =
-          let
-            pkgs = nixpkgs.legacyPackages."${system}";
-
-            privateKey = "/etc/nix/nixbld_ed25519";
-
-            script = pkgs.writeShellScript "create-builder.sh" ''
-              set -x
-              sudo install -g nixbld -m 400 ${./keys/nixbld_ed25519} ${privateKey}
-              set +x
-
-              ${packages.builder}/bin/run-nixos-vm
-            '';
-
-          in
-            "${script}";
+        program = "${packages.app}";
       };
 
       nixosConfigurations =
