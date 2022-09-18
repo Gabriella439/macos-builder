@@ -1,7 +1,8 @@
 # Bootstrap a Linux build VM on macOS
 
-This repository provides a way to bootstrap a Linux builder for Nix on macOS
-without relying on an existing Linux builder.
+This repository provides a way to bootstrap a NixOS Linux build VM running on
+macOS without relying on an existing NixOS builder.  You can then in turn use
+that NixOS build VM to to build and run other NixOS VMs on macOS.
 
 ## Requirements
 
@@ -86,7 +87,32 @@ $ sudo launchctl kickstart -k system/org.nixos.nix-daemon
 
 … and you're done!  Enjoy 😊
 
-# Architecture match
+## Building downstream VMs
+
+You don't have to stop there!  You can use the Linux builder you just created
+to build and run other NixOS VMs on macOS.  Here is an example of a flake that
+you can use as a starting template:
+
+```nix
+{ inputs.macos-builder.url = "github:Gabriella439/macos-builder";
+
+  outputs = { macos-builder, nixpkgs, ... }: {
+    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+      modules = [ macos-builder.nixosModules.aarch64-darwin.default ];
+
+      system = "aarch64-linux";
+    };
+  };
+}
+```
+
+… and you can run that NixOS VM on macOS using:
+
+```ShellSession
+$ nix run .#nixosConfigurations.default.config.system.build.vm
+```
+
+## Architecture match
 
 This only supports running a guest system of the same architecture.
 
