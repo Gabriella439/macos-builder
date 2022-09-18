@@ -5,7 +5,7 @@
   };
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system: rec {
+    flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-darwin" ] (system: rec {
       defaultPackage = packages.default;
 
       packages = {
