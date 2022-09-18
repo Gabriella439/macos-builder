@@ -118,6 +118,8 @@
               { from = "host"; guest.port = 22; host.port = 22; }
             ];
 
+            # Disable graphics for the builder since users will likely want to
+            # run it non-interactively in the background.
             graphics = false;
 
             # If we don't enable this option then the host will fail to delegate
