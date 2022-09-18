@@ -6,6 +6,8 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system: rec {
+      defaultPackage = packages.default;
+
       packages = {
         default =
           nixosConfigurations.default.config.system.build.vm;
@@ -13,6 +15,8 @@
         builder =
           nixosConfigurations.builder.config.system.build.vm;
       };
+
+      defaultApp = apps.default;
 
       apps.default = {
         type = "app";
@@ -52,6 +56,8 @@
               modules = [ nixosModules.builder ];
             };
           };
+
+      nixosModule = nixosModules.default;
 
       nixosModules = rec {
         vm = { modulesPath, ... }: {

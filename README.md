@@ -5,7 +5,7 @@ without relying on an existing Linux builder.
 
 ## Requirements
 
-This requires macOS version 12.4 or later.
+This requires macOS version 12.4 or later and Nix version 2.4 or later.
 
 ## Instructions
 
