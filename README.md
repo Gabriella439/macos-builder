@@ -3,6 +3,10 @@
 This repository provides a way to bootstrap a Linux builder for Nix on macOS
 without relying on an existing Linux builder.
 
+## Requirements
+
+This requires macOS version 12.4 or later.
+
 ## Instructions
 
 Before performing any of these commands, read the following two security
