@@ -68,7 +68,9 @@ Run 'nixos-help' for the NixOS manual.
 nixos login:
 ```
 
-… and your remote builder is good to go!
+… and your remote builder is good to go!  When you need to stop the VM, type
+<kbd>Ctrl</kbd>-<kbd>a</kbd> + <kbd>c</kbd> to open the `qemu` prompt and then
+type `quit` followed by <kbd>Enter</kbd>.
 
 To use the builder, add the following options to your `nix.conf` file:
 
