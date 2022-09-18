@@ -112,6 +112,8 @@
           };
 
           virtualisation = {
+            diskSize = 20480;
+
             forwardPorts = [
               { from = "host"; guest.port = 22; host.port = 22; }
             ];
