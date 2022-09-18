@@ -73,35 +73,23 @@
         };
 
         build = {
+          environment.etc = {
+            "ssh/ssh_host_ed25519_key" = {
+              mode = "0600";
+
+              source = ./keys/ssh_host_ed25519_key;
+            };
+
+            "ssh/ssh_host_ed25519_key.pub" = {
+              mode = "0644";
+
+              source = ./keys/ssh_host_ed25519_key.pub;
+            };
+          };
+
           nix.settings.trusted-users = [ "root" "builder" ];
 
           services.openssh.enable = true;
-
-          systemd.services.override-host-key = {
-            wantedBy = [ "multi-user.target" ];
-
-            after = [ "sshd.service" ];
-
-            serviceConfig.RemainAfterExit = true;
-
-            script =
-              let
-                privateKey = "/etc/ssh/ssh_host_ed25519_key";
-
-                publicKey = "${privateKey}.pub";
-
-              in
-                ''
-                until [ -e ${privateKey} -a -e ${publicKey} ]; do
-                  sleep 1
-                done
-
-                cp ${./keys/ssh_host_ed25519_key} /etc/ssh/ssh_host_ed25519_key
-
-                cp ${./keys/ssh_host_ed25519_key.pub} /etc/ssh/ssh_host_ed25519_key.pub
-                systemctl restart sshd.service
-                '';
-          };
 
           system.stateVersion = "22.05";
 
