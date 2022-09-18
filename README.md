@@ -7,6 +7,13 @@ without relying on an existing Linux builder.
 
 This requires macOS version 12.4 or later and Nix version 2.4 or later.
 
+You will also need to be a trusted user for your Nix installation.  In other
+words, your `/etc/nix/nix.conf` should have something like:
+
+```
+extra-trusted-users = <your username goes here>
+```
+
 ## Instructions
 
 Before performing any of these commands, read the following two security
@@ -21,7 +28,7 @@ If you haven't already, add this to `/etc/nix/nix.conf`:
 extra-experimental-features = nix-command flakes
 ```
 
-… and then restart your Nix daemon:
+… and then restart your Nix daemon to apply the change:
 
 ```ShellSession
 $ sudo launchctl kickstart -k system/org.nixos.nix-daemon
@@ -71,7 +78,7 @@ builders = ssh-ng://builder@localhost aarch64-linux /etc/nix/nixbld_ed25519 - - 
 builders-use-substitutes = true
 ```
 
-… and then restart your Nix daemon:
+… and then restart your Nix daemon to apply the change:
 
 ```ShellSession
 $ sudo launchctl kickstart -k system/org.nixos.nix-daemon
