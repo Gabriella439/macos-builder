@@ -1,0 +1,7 @@
+builds:
+ exclude: []
+ include:
+ - packages.aarch64-darwin.*'
+ - apps.aarch64-darwin.*'
+ - packages.x86_64-darwin.*'
+ - apps.x86_64-darwin.*'
