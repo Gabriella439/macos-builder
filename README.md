@@ -75,6 +75,7 @@ type `quit` followed by <kbd>Enter</kbd>.
 To use the builder, add the following options to your `nix.conf` file:
 
 ```
+# Replace aarch64-linux with x86_64-linux if the host machine is x86_64-darwin
 builders = ssh-ng://builder@localhost aarch64-linux /etc/nix/nixbld_ed25519 - - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo='
 
 # Not strictly necessary, but this will reduce your disk utilization
