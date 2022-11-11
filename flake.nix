@@ -21,10 +21,17 @@
 
             privateKey = "/etc/nix/nixbld_ed25519";
 
+            publicKey = "${privateKey}.pub";
+
           in
             pkgs.writeShellScript "create-builder.sh" ''
-              (set -x; sudo install -g nixbld -m 400 ${./keys/nixbld_ed25519} ${privateKey})
-
+              if ! cmp ${./keys/nixbld_ed25519.pub} ${publicKey}; then
+                ( set -x
+                  sudo install -g nixbld -m 600 ${./keys/nixbld_ed25519} ${privateKey}
+                  sudo install -g nixbld -m 644 ${./keys/nixbld_ed25519.pub} ${publicKey}
+                  sudo --remove-timestamp
+                )
+              fi
               ${packages.builder}/bin/run-nixos-vm
             '';
       };
