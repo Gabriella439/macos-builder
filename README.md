@@ -8,6 +8,9 @@ that NixOS build VM to to build and run other NixOS VMs on macOS.
 
 This requires macOS version 12.4 or later and Nix version 2.4 or later.
 
+This also requires that port 22 on your machine is free (since Nix does not
+permit specifying a non-default SSH port for builders).
+
 You will also need to be a trusted user for your Nix installation.  In other
 words, your `/etc/nix/nix.conf` should have something like:
 
@@ -17,11 +20,9 @@ extra-trusted-users = <your username goes here>
 
 ## Instructions
 
-Before performing any of these commands, read the following two security
-disclaimers:
+Before performing any of these commands, read the following security disclaimer:
 
 * [Security - Cache](#security---cache)
-* [Security - Keys](#security---keys)
 
 If you haven't already, add this to `/etc/nix/nix.conf`:
 
@@ -53,7 +54,7 @@ do you want to permanently mark this value as trusted (y/N)? y
 That will prompt you to enter your `sudo` password:
 
 ```
-+ sudo install -g nixbld -m 400 /nix/store/wh01fnnsq7n7hykgc6hlb14a7682pz16-nixbld_ed25519 /etc/nix/nixbld_ed25519
++ sudo --reset-timestamp /nix/store/…-install-credentials.sh ./keys
 Password:
 ```
 
@@ -77,7 +78,7 @@ To use the builder, add the following options to your `nix.conf` file:
 ```
 # - Replace ${ARCH} with either aarch64 or x86_64 to match your host machine
 # - Replace ${MAX_JOBS} with the maximum number of builds (pick 4 if you're not sure)
-builders = ssh-ng://builder@localhost ${ARCH}-linux /etc/nix/nixbld_ed25519 ${MAX_JOBS} - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo='
+builders = ssh-ng://builder@localhost ${ARCH}-linux /etc/nix/builder_ed25519 ${MAX_JOBS} - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo='
 
 # Not strictly necessary, but this will reduce your disk utilization
 builders-use-substitutes = true
@@ -147,14 +148,6 @@ For what it's worth, I did *not* use the shared aarch64.nixos.community
 machine for building this.  I provisioned a blank
 `NixOS-22.05.342.a634c8f6c1f-aarch64-linux` AMI to build and populate the
 cache.
-
-## Security - Keys
-
-In order for this to work the builder has to hard-code the SSH key pair used to
-log in (otherwise nobody can prebuild the system for you).  This server runs on
-port 22 of your laptop, meaning that if port 22 on your machine is reachable
-(i.e. your firewall allows incoming connections port 22), then a malicious
-user can log into your builder.
 
 ## Acknowledgments
 
