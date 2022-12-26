@@ -1,5 +1,9 @@
 # Bootstrap a Linux build VM on macOS
 
+**NOTE:** This has now been
+[upstreamed into Nixpkgs](https://nixos.org/manual/nixpkgs/unstable/#sec-darwin-builder)
+but I keep this repository around for backwards compatibility and historical reference.
+
 This repository provides a way to bootstrap a NixOS Linux build VM running on
 macOS without relying on an existing NixOS builder.  You can then in turn use
 that NixOS build VM to to build and run other NixOS VMs on macOS.
